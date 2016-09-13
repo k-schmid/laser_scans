@@ -1,4 +1,4 @@
-function [ clouds ] = plot_intersection( folder_path, layer_of_interest,outlier_range, rangeLimit )
+function  plot_intersection( folder_path, layer_of_interest,outlier_range, rangeLimit, viewing_angle )
 %[ output_args ] = plot_intersection( input_args ) Plots all the data of a
 %whole intersection
 %   All data within a folder is plotted. Each viewpoint is assumed to have
@@ -10,16 +10,19 @@ function [ clouds ] = plot_intersection( folder_path, layer_of_interest,outlier_
 %   Output:
 %       clouds          -   Processed point clouds
 %
-
+if nargin <2
+    layer_of_interest = 8;
+end
 if nargin <3
     outlier_range = deg2rad(1.5);
 end
 if nargin <4
-    rangeLimit = 100;
+    rangeLimit = 60;
 end
-if nargin <2
-    layer_of_interest = 8;
+if nargin <5
+    viewing_angle = [deg2rad(0),deg2rad(180)];
 end
+
 
 % Get a list of all files and folders in this folder.
 files = dir(folder_path);
@@ -52,11 +55,12 @@ for i = 1:numFolder
         load(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest));
     else
         load([subFolderPath '/cloud.mat']);
-        cloud = get_sorted_scans(cloud,outlier_range,layer_of_interest);
+        cloud = sort_cloud(cloud);
         cloud = reject_outlier(cloud,outlier_range,layer_of_interest);
-        clouds{i} = setLimit(cloud, rangeLimit);
-        centers = get_isovist(360,clouds{i},1,layer_of_interest);
-        save(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest),'centers')
+        cloud = setLimit(cloud, rangeLimit);     
+        cloud = reduceAngle(cloud, viewing_angle);
+        centers = get_isovist(360,cloud,1,layer_of_interest,false);
+        save(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest),'centers','cloud')
     end
     subplotxl(subplot_dim(1),subplot_dim(2),i);
     %     scatter(clouds{i}.x(7,:),clouds{i}.y(7,:),2,'r','filled')

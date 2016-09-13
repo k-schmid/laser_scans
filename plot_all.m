@@ -1,14 +1,14 @@
 clear 
 close all
 clc
-for layer = 8
+for layer = 10:16
     disp(int2str(layer))
-for i=12
-    clouds_path = ['/pfs/data2/home/fr/fr_fr/fr_ks414/Documents/Kreuzungen/' int2str(i) '/'];
+parfor intersections=1:22
+    clouds_path = ['/pfs/data2/home/fr/fr_fr/fr_ks414/Documents/Kreuzungen/' int2str(intersections) '/'];
     plot_intersection(clouds_path,layer);
-    filename =[int2str(layer) '/Isovists ',int2str(i),'.png'];
+    filename =['mean/',int2str(layer) '/Isovists ',int2str(intersections),'.png'];
     set(gcf, 'Position', get(0, 'Screensize'));
-    mkdir(int2str(layer))
+    mkdir(['mean/',int2str(layer)])
     export_fig(filename,'-m3')
 end
 end

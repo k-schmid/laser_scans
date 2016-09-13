@@ -1,7 +1,7 @@
-function [ centers ] = get_isovist( num_bins,cloud,scale,layer,mode )
+function [ centers ] = get_isovist( num_bins,cloud,scale,layer,use_mode )
 
 if nargin < 5
-    mode = false;
+    use_mode = false;
 end
 
 
@@ -53,7 +53,7 @@ for bin = 1:num_bins
             warning('Neither inf nor sth else')
         end
     else
-        if mode
+        if use_mode
             cluster_center = mode(current_cluster,1);
             x_centers(bin) = cluster_center(1);
             y_centers(bin) = cluster_center(2);
