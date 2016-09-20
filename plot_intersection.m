@@ -34,13 +34,13 @@ numFolder = length(subFolders);
 
 subplot_dim = [ceil(sqrt(numFolder)),round(sqrt(numFolder))];
 figure()
-for i = 1:numFolder
+parfor i = 1:numFolder
     subFolder = subFolders(i);
     subFolderPath = [folder_path subFolder.name];
-    if exist(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest))==2 && 0
+    if exist(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest),'file')==2 && 0
         loaded_data = load(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest));
         centers = loaded_data.centers;
-        clear loaded_data
+%         clear loaded_data
     else
         loaded_data = load([subFolderPath '/cloud.mat']);
         cloud = loaded_data.cloud;
