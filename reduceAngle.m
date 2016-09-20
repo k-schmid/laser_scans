@@ -1,4 +1,4 @@
-function [cloud] = reduceAngle(cloud,viewing_angle)
+function [cloud] = reduceAngle(cloud,viewing_angle, layer_of_interest)
 %[ cloud ] = reduceAngle( cloud, viewing_angle, layers_of_interest)
 %Rejects outlier
 %
@@ -13,13 +13,12 @@ function [cloud] = reduceAngle(cloud,viewing_angle)
 
 rejected_idx = [];
 for i = 1:length(cloud.azimuth)
-   if cloud.azimuth(i) >= viewing_angle(1) && cloud.azimuth(i)<= viewing_angle(2)
-       
+   if any(cloud.azimuth(layer_of_interest,i) >= viewing_angle(:,1) & cloud.azimuth(layer_of_interest,i) <= viewing_angle(:,2))
+       rem=true;
    else
        rejected_idx = [rejected_idx,i];
    end
 end
-rejected_idx = not(cloud.azimuth(7,:) >= viewing_angle(1) & cloud.azimuth(7,:) <= viewing_angle(2));
 cloud.azimuth(:,rejected_idx) = [];
 cloud.x(:,rejected_idx) = [];
 cloud.y(:,rejected_idx) = [];
