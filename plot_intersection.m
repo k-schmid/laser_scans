@@ -44,7 +44,6 @@ subFolders = subFolders(numericValue);
 subFolders = subFolders(idx);
 
 numFolder = length(subFolders);
-clouds = cell(numFolder,1);
 
 subplot_dim = [ceil(sqrt(numFolder)),round(sqrt(numFolder))];
 figure()
@@ -52,13 +51,16 @@ for i = 1:numFolder
     subFolder = subFolders(i);
     subFolderPath = [folder_path subFolder.name];
     if exist(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest))==2 && 0
-        load(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest));
+        loaded_data = load(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest));
+        centers = loaded_data.centers;
+        clear loaded_data
     else
-        load([subFolderPath '/cloud.mat']);
+        loaded_data = load([subFolderPath '/cloud.mat']);
+        cloud = loaded_data.cloud;
         cloud = sort_cloud(cloud);
+        cloud = reduceAngle(cloud, viewing_angle);
         cloud = reject_outlier(cloud,outlier_range,layer_of_interest);
         cloud = setLimit(cloud, rangeLimit);     
-        cloud = reduceAngle(cloud, viewing_angle);
         centers = get_isovist(360,cloud,1,layer_of_interest,false);
         save(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest),'centers','cloud')
     end
@@ -73,6 +75,7 @@ for i = 1:numFolder
     axis off
     axis equal
     hold off
+    drawnow()
 end
 
 end

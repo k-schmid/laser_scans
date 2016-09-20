@@ -50,7 +50,7 @@ for bin = 1:num_bins
             [x_centers(bin),y_centers(bin)] = pol2cart(current_angle-pi,100);
             
         else
-            warning('Neither inf nor sth else')
+%             warning('Neither inf nor sth else')
         end
     else
         if use_mode
