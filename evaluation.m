@@ -15,7 +15,7 @@ center_statistics = 'median';
 num_bins = 180;
 reload = false;
 
-for intersections = 22
+for intersections = 1:22
     clouds_path = ['../data/' int2str(intersections) '/'];
     fprintf('Intersection %d\n',intersections)
     %% center_stat
@@ -36,29 +36,29 @@ for intersections = 22
 %     end
 %     
     %% num_bins
-    path = [plot_path,'num_bins/'];
-    for num_bins_ = 100:40:360
-        plot_intersection(clouds_path,layer,outlier_range, rangeLimit, viewing_angle,precision,center_statistics,num_bins_,reload);
-        
-        filename =sprintf('Isovists %d_%d bins_%s.png',intersections,num_bins_,center_statistics);
-        set(gcf, 'Position', get(0, 'Screensize'));
-        mkdir(path)
-        export_fig([path,filename],'-m3')
-    end
-    
-    
-%     %% viewing_angle
-%         path = [plot_path,'viewing_angle/'];
+%     path = [plot_path,'num_bins/'];
+%     for num_bins_ = 100:40:360
+%         plot_intersection(clouds_path,layer,outlier_range, rangeLimit, viewing_angle,precision,center_statistics,num_bins_,reload);
 %         
-%     for angle = 120:10:360
-%         missing_angle = (360 - angle) / 2;
-%         viewing_angle_ = [deg2rad(0),deg2rad(missing_angle);deg2rad(360-missing_angle),deg2rad(360)];
-%         plot_intersection(clouds_path,layer,outlier_range, rangeLimit, viewing_angle_,precision,center_statistics,num_bins,reload);
-%         
-%         filename =sprintf('Isovists %d_%d bins_%s_angle %d.png',intersections,num_bins_,center_statistics);
+%         filename =sprintf('Isovists %d_%d bins_%s.png',intersections,num_bins_,center_statistics);
 %         set(gcf, 'Position', get(0, 'Screensize'));
 %         mkdir(path)
 %         export_fig([path,filename],'-m3')
 %     end
+    
+    
+    %% viewing_angle
+        path = [plot_path,'viewing_angle/'];
+        
+    for angle = 120:10:360
+        missing_angle = (360 - angle) / 2;
+        viewing_angle_ = [deg2rad(0),deg2rad(missing_angle);deg2rad(360-missing_angle),deg2rad(360)];
+        plot_intersection(clouds_path,layer,outlier_range, rangeLimit, viewing_angle_,precision,center_statistics,num_bins,reload);
+        
+        filename =sprintf('Isovists %d_%d bins_%s_angle %d.png',intersections,num_bins,center_statistics,angle);
+        set(gcf, 'Position', get(0, 'Screensize'));
+        mkdir(path)
+        export_fig([path,filename],'-m3')
+    end
     
 end
