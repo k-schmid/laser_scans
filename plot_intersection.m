@@ -37,7 +37,7 @@ figure()
 parfor i = 1:numFolder
     subFolder = subFolders(i);
     subFolderPath = [folder_path subFolder.name];
-    if exist(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest),'file')==2 && 0
+    if exist(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest),'file')==2
         loaded_data = load(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest));
         centers = loaded_data.centers;
         %         clear loaded_data
