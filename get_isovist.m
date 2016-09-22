@@ -1,5 +1,5 @@
 function [ centers ] = get_isovist( num_bins,cloud,scale,layer_of_interest )
-
+warning('off','MATLAB:mode:EmptyInput');
 angle_diff = 2*pi / num_bins;
 
 layers = layer_of_interest-1:layer_of_interest+1;
