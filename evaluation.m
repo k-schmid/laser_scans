@@ -1,9 +1,9 @@
-plot_path = '../Evaluation/';
 clear
 close all
 clc
 
 %% default settings
+plot_path = '../Evaluation/';
 layer = 8;
 rangeLimit = 60;
 precision = 0;
@@ -13,7 +13,7 @@ center_statistics = 'median';
 num_bins = 180;
 reload = false;
 
-parfor intersections = 1:21
+parfor intersections = 1:22
     clouds_path = ['../data/' int2str(intersections) '/'];
     
     %% center_stat
