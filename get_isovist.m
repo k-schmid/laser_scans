@@ -1,4 +1,4 @@
-function [ centers ] = get_isovist( num_bins,cloud,scale,layer_of_interest,center_stat )
+function [ centers ] = get_isovist( num_bins,cloud,scale,layer_of_interest )
 
 if nargin < 5
     center_stat = 'mean';
@@ -11,8 +11,15 @@ end
 
 
 angle_diff = 2*pi / num_bins;
-x_centers = [];
-y_centers = [];
+
+centers.median.x = [];
+centers.median.y = [];
+centers.mode.x = [];
+centers.mode.y = [];
+centers.mean.x = [];
+centers.mean.y = [];
+
+
 data_point_bools =ones(16,size(cloud.x(layer_of_interest,:),2));
 
 for bin = 1:num_bins
@@ -21,7 +28,7 @@ for bin = 1:num_bins
     current_angle = (bin-1)*angle_diff;
     [x_ray,y_ray]=pol2cart(current_angle,60);
     ray = [x_ray,y_ray];
-%     continue
+    %     continue
     infinity = false;
     removed_data_points = [];
     for layer = layer_of_interest-1:layer_of_interest+1
@@ -41,7 +48,7 @@ for bin = 1:num_bins
             end
             
             data_point_coord = [x(data_point),y(data_point)];
-           
+            
             angle = acos( dot(data_point_coord,ray) / (norm(data_point_coord) * norm(ray)) );
             %             angle = subspace(ray,data_point_coord);
             
@@ -65,24 +72,26 @@ for bin = 1:num_bins
                 %                             disp('>>>> WARNING: Neither inf nor sth else')
             end
         else
-            switch center_stat
-                case 'mode'
-                    cluster_center = mode(current_cluster,1);
-                    
-                case 'mean'
-                    cluster_center = mean(current_cluster,1);
-                    
-                    
-                case 'median'
-                    cluster_center = median(current_cluster,1);
-            end
-            x_centers(end+1) = cluster_center(1);
-            y_centers(end+1) = cluster_center(2);
+            
+            cluster_center = mode(current_cluster,1);
+            centers.mode.x(end+1) = cluster_center(1);
+            centers.mode.y(end+1) = cluster_center(2);
+            
+            cluster_center = mean(current_cluster,1);
+            centers.mean.x(end+1) = cluster_center(1);
+            centers.mean.y(end+1) = cluster_center(2);
+            
+            cluster_center = median(current_cluster,1);
+            centers.median.x(end+1) = cluster_center(1);
+            centers.median.y(end+1) = cluster_center(2);
+            
+            
+            
+            
         end
         
     end
 end
-centers.x = x_centers;
-centers.y = y_centers;
+
 end
 

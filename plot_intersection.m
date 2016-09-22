@@ -37,7 +37,7 @@ figure()
 parfor i = 1:numFolder
     subFolder = subFolders(i);
     subFolderPath = [folder_path subFolder.name];
-    if exist(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest),'file')==2
+    if exist(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest),'file') && 0
         loaded_data = load(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest));
         centers = loaded_data.centers;
         %         clear loaded_data
@@ -49,15 +49,15 @@ parfor i = 1:numFolder
         %         cloud = reduceAngle(cloud, viewing_angle,layer_of_interest);
         %         cloud = reject_outlier(cloud,outlier_range,layer_of_interest);
         %         cloud = setLimit(cloud, rangeLimit);
-        centers = get_isovist(360,cloud,1,layer_of_interest,center_statistics);
+        centers = get_isovist(360,cloud,1,layer_of_interest);
         %         centers = gaussFilterCenters(centers,5);
         save_mat_file( centers,cloud,subFolderPath,layer_of_interest );
     end
     subplotxl(subplot_dim(1),subplot_dim(2),i);
     %         scatter(clouds{i}.x(7,:),clouds{i}.y(7,:),2,'r','filled')
-    plot(centers.x,centers.y,'Marker','.')
+    plot(centers.(center_statistics).x,centers.(center_statistics).y,'Marker','.')
     hold on
-    plot([centers.x(end),centers.x(1)],[centers.y(end),centers.y(1)],'Marker','.','LineWidth',0.1,'MarkerSize',1)
+    plot([centers.(center_statistics).x(end),centers.(center_statistics).x(1)],[centers.(center_statistics).y(end),centers.(center_statistics).y(1)],'Marker','.','LineWidth',0.1,'MarkerSize',1)
     plot(0,0,'Marker','.','MarkerSize',10,'Color','r')
     xlim([-100,100])
     ylim([-100,100])
