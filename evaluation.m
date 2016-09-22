@@ -15,7 +15,7 @@ reload = false;
 
 parfor intersections = 1:22
     clouds_path = ['../data/' int2str(intersections) '/'];
-    
+    fprintf('Intersection %d\n',intersections)
     %% center_stat
     path = 'center_statistic/';
     center_stats = {'median','mean','mode'};
