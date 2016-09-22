@@ -2,6 +2,8 @@ clear
 close all
 clc
 
+warning('off','MATLAB:prnRenderer:opengl');
+warning off MATLAB:MKDIR:DirectoryExists
 %% default settings
 plot_path = '../Evaluation/';
 layer = 8;
