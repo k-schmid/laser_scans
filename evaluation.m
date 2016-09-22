@@ -17,7 +17,7 @@ parfor intersections = 1:22
     clouds_path = ['../data/' int2str(intersections) '/'];
     fprintf('Intersection %d\n',intersections)
     %% center_stat
-    path = 'center_statistic/';
+    path = [plot_path,'num_bins/'];
     center_stats = {'median','mean','mode'};
     
     for i = 1:length(center_stats)
@@ -30,7 +30,7 @@ parfor intersections = 1:22
         filename =sprintf('Isovists %d_%d bins_%s.png',intersections,num_bins,center_statistics_);
         set(gcf, 'Position', get(0, 'Screensize'));
         mkdir(path)
-        export_fig([plot_path,path,filename],'-m3')
+        export_fig([path,filename],'-m3')
     end
     
     %% num_bins
