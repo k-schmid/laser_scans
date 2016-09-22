@@ -1,4 +1,4 @@
-function  plot_intersection( folder_path, layer_of_interest,outlier_range, rangeLimit, viewing_angle,precision,center_statistics)
+function  plot_intersection( folder_path, layer_of_interest,outlier_range, rangeLimit, viewing_angle,precision,center_statistics,num_bins,reload)
 %[ output_args ] = plot_intersection( input_args ) Plots all the data of a
 %whole intersection
 %   All data within a folder is plotted. Each viewpoint is assumed to have
@@ -34,10 +34,10 @@ numFolder = length(subFolders);
 
 subplot_dim = [ceil(sqrt(numFolder)),round(sqrt(numFolder))];
 figure()
-parfor i = 1:numFolder
+for i = 1:numFolder
     subFolder = subFolders(i);
     subFolderPath = [folder_path subFolder.name];
-    if exist(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest),'file') && 0
+    if exist(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest),'file') && reload
         loaded_data = load(sprintf('%s/cloud_preprocessed_%d.mat',subFolderPath,layer_of_interest));
         centers = loaded_data.centers;
         %         clear loaded_data
@@ -49,7 +49,7 @@ parfor i = 1:numFolder
         %         cloud = reduceAngle(cloud, viewing_angle,layer_of_interest);
         %         cloud = reject_outlier(cloud,outlier_range,layer_of_interest);
         %         cloud = setLimit(cloud, rangeLimit);
-        centers = get_isovist(360,cloud,1,layer_of_interest);
+        centers = get_isovist(num_bins,cloud,1,layer_of_interest);
         %         centers = gaussFilterCenters(centers,5);
         save_mat_file( centers,cloud,subFolderPath,layer_of_interest );
     end
