@@ -48,11 +48,10 @@ parfor intersections = 1:22
     
     
     %% viewing_angle
-        path = [plot_path,'viewing_angle/'];
+        path = [plot_path,'viewing_angle_new/'];
         
     for angle = 120:10:360
-        missing_angle = (360 - angle) / 2;
-        viewing_angle_ = [deg2rad(0),deg2rad(missing_angle);deg2rad(360-missing_angle),deg2rad(360)];
+        viewing_angle_ = [deg2rad(0),deg2rad(angle/2);deg2rad(360-(angle/2)),deg2rad(360)];
         plot_intersection(clouds_path,layer,outlier_range, rangeLimit, viewing_angle_,precision,center_statistics,num_bins,reload);
         
         filename =sprintf('Isovists %d_%d bins_%s_angle %d.png',intersections,num_bins,center_statistics,angle);
