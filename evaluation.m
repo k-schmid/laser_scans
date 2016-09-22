@@ -15,7 +15,7 @@ center_statistics = 'median';
 num_bins = 180;
 reload = false;
 
-for intersections = 1:22
+parfor intersections = 1:22
     clouds_path = ['../data/' int2str(intersections) '/'];
     fprintf('Intersection %d\n',intersections)
     %% center_stat
