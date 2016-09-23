@@ -55,10 +55,10 @@ for i = 1:numFolder
     end
     subplotxl(subplot_dim(1),subplot_dim(2),i);
     %         scatter(clouds{i}.x(7,:),clouds{i}.y(7,:),2,'r','filled')
-    plot(centers.(center_statistics).x,centers.(center_statistics).y,'Marker','.')
+    plot(centers.(center_statistics).x,centers.(center_statistics).y,'Marker','.','Color','black')
     hold on
-    plot([centers.(center_statistics).x(end),centers.(center_statistics).x(1)],[centers.(center_statistics).y(end),centers.(center_statistics).y(1)],'Marker','.','LineWidth',0.1,'MarkerSize',1)
-    plot(0,0,'Marker','.','MarkerSize',10,'Color','r')
+    plot([centers.(center_statistics).x(end),centers.(center_statistics).x(1)],[centers.(center_statistics).y(end),centers.(center_statistics).y(1)],'Marker','.','MarkerSize',1,'Color','black')
+    plot(0,0,'Marker','x','MarkerSize',5,'Color','r')
     xlim([-100,100])
     ylim([-100,100])
     axis off
