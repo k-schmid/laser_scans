@@ -24,10 +24,21 @@ for layer = layers
                     n = find(not(isnan([cloud.radius(layer,datapoint:end) , cloud.radius(layer,1:datapoint-1)])),1);
                     if n > size(cloud.radius(layer,:),2)
                         cloud.radius(layer,start_idx:end) = limit;
+                        [x,y] = pol2cart(cloud.azimuth(layer,start_idx:end),cloud.radius(layer,start_idx:end));
+                        cloud.x(layer,start_idx:end)=x;
+                        cloud.y(layer,start_idx:end)=y;
+
                         n = n - size(cloud.radius(layer,:),2);
-                        cloud.radius(layer,1:datapoint+n-2) = limit;
+                        cloud.radius(layer,1:n-2) = limit;
+                        [x,y] = pol2cart(cloud.azimuth(layer,1:n-2),cloud.radius(layer,1:n-2));
+                        cloud.x(layer,1:n-2)=x;
+                        cloud.y(layer,1:n-2)=y;
                     else
                         cloud.radius(layer,start_idx:datapoint+n-2) = limit;
+                        [x,y] = pol2cart(cloud.azimuth(layer,start_idx:datapoint+n-2),cloud.radius(layer,start_idx:datapoint+n-2));
+                        cloud.x(layer,start_idx:datapoint+n-2)=x;
+                        cloud.y(layer,start_idx:datapoint+n-2)=y;
+                        
                     end
                     datapoint = start_idx;
                 end
