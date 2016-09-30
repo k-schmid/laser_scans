@@ -19,7 +19,12 @@ parfor intersections = 1:22
     clouds_path = ['../data/' int2str(intersections) '/'];
     fprintf('Intersection %d\n',intersections)
     %% Defaults
+    path = [plot_path,'nan_range/'];
     plot_intersection(clouds_path,layer,outlier_range, rangeLimit, viewing_angle,precision,center_statistics,num_bins,reload);
+    filename =sprintf('Isovists %d_%d bins_%s.png',intersections,num_bins,center_statistics);
+    set(gcf, 'Position', get(0, 'Screensize'));
+    mkdir(path)
+    export_fig([path,filename],'-pdf','-m3','-transparent')
     continue;
     %% center_stat
     path = [plot_path,'center_statistics/'];
