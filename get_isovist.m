@@ -1,4 +1,4 @@
-function [ centers ] = get_isovist( num_bins,cloud,scale,layer_of_interest )
+function [ centers ] = get_isovist( num_bins,cloud,scale,layer_of_interest, outlier_range, limit)
 warning('off','MATLAB:mode:EmptyInput');
 angle_diff = 2*pi / num_bins;
 
@@ -6,12 +6,35 @@ layers = layer_of_interest-1:layer_of_interest+1;
 
 bins = cell(num_bins,2);
 for layer = layers
-    
-    for datapoint = 1:size(cloud.x(layer,:),2)
-        if isnan(cloud.radius(layer,datapoint))
-            continue
-        end
+    nan_found = false;
+    datapoint = 0;
+    while datapoint < size(cloud.x(layer,:),2)
+        datapoint= datapoint + 1;
         angle_datapoint = cloud.azimuth(layer,datapoint);
+        
+        if isnan(cloud.radius(layer,datapoint))
+            
+            if ~nan_found
+                nan_found = true;
+                start_angle = angle_datapoint;
+                start_idx = datapoint;
+            else                
+%                 fprintf('%f\n',abs(start_angle - angle_datapoint))
+                if abs(start_angle - angle_datapoint) > outlier_range                   
+                    n = find(not(isnan([cloud.radius(layer,datapoint:end) , cloud.radius(layer,1:datapoint-1)])),1);
+                    if n > size(cloud.radius(layer,:),2)
+                        cloud.radius(layer,start_idx:end) = limit;
+                        n = n - size(cloud.radius(layer,:),2);
+                        cloud.radius(layer,1:datapoint+n-2) = limit;
+                    else
+                        cloud.radius(layer,start_idx:datapoint+n-2) = limit;
+                    end
+                    datapoint = start_idx;
+                end
+            end
+                continue;
+        end
+        nan_found = false;
         
         closest_bin = round(angle_datapoint/(2*pi) * num_bins);
         if closest_bin == 0

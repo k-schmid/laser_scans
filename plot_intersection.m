@@ -49,7 +49,7 @@ for i = 1:numFolder
         cloud = reduceAngle(cloud, viewing_angle,layer_of_interest);
         %         cloud = reject_outlier(cloud,outlier_range,layer_of_interest);
         %         cloud = setLimit(cloud, rangeLimit);
-        centers = get_isovist(num_bins,cloud,1,layer_of_interest);
+        centers = get_isovist(num_bins,cloud,1,layer_of_interest,outlier_range, rangeLimit);
         %         centers = gaussFilterCenters(centers,5);
         save_mat_file( centers,cloud,subFolderPath,layer_of_interest );
     end

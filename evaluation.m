@@ -10,7 +10,7 @@ layer = 8;
 rangeLimit = 60;
 precision = 0;
 viewing_angle = [deg2rad(0),deg2rad(360)];
-outlier_range = deg2rad(3);
+outlier_range = deg2rad(5);
 center_statistics = 'median';
 num_bins = 180;
 reload = false;
@@ -18,6 +18,9 @@ reload = false;
 parfor intersections = 1:22
     clouds_path = ['../data/' int2str(intersections) '/'];
     fprintf('Intersection %d\n',intersections)
+    %% Defaults
+    plot_intersection(clouds_path,layer,outlier_range, rangeLimit, viewing_angle,precision,center_statistics,num_bins,reload);
+    continue;
     %% center_stat
     path = [plot_path,'center_statistics/'];
     center_stats = {'median','mean','mode'};
@@ -32,7 +35,7 @@ parfor intersections = 1:22
         filename =sprintf('Isovists %d_%d bins_%s.png',intersections,num_bins,center_statistics_);
         set(gcf, 'Position', get(0, 'Screensize'));
         mkdir(path)
-      export_fig([path,filename],'-pdf','-m3','-transparent')
+        export_fig([path,filename],'-pdf','-m3','-transparent')
     end
     
     %% num_bins
@@ -48,8 +51,8 @@ parfor intersections = 1:22
     
     
     %% viewing_angle
-        path = [plot_path,'viewing_angle_new/'];
-        
+    path = [plot_path,'viewing_angle_new/'];
+    
     for angle = 120:10:360
         viewing_angle_ = [deg2rad(0),deg2rad(angle/2);deg2rad(360-(angle/2)),deg2rad(360)];
         plot_intersection(clouds_path,layer,outlier_range, rangeLimit, viewing_angle_,precision,center_statistics,num_bins,reload);
