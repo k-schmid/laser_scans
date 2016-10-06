@@ -5,17 +5,22 @@ angle_diff = 2*pi / num_bins;
 layers = layer_of_interest-1:layer_of_interest+1;
 
 bins = cell(num_bins,2);
-
-for layer = layers
+plot_progress = false;
+if exist('textprogressbar','file')
+    plot_progress = true;
+end
+for layer = layer_of_interest%layers
     nan_found = false;
     datapoint = 0;
-    
-%     textprogressbar(['Layer ',int2str(layer),': ']);
+    if plot_progress && mod(datapoint,100)==0
+        textprogressbar(['Layer ',int2str(layer),': ']);
+    end
     pause(1)
     while datapoint < size(cloud.x(layer,:),2)
         datapoint= datapoint + 1;
-%         textprogressbar(datapoint/size(cloud.x(layer,:),2)*100);
-        
+        if plot_progress
+            textprogressbar(datapoint/size(cloud.x(layer,:),2)*100);
+        end
         angle_datapoint = cloud.azimuth(layer,datapoint);
         
         if isnan(cloud.radius(layer,datapoint))
@@ -66,8 +71,9 @@ for layer = layers
         bins{closest_bin,1} = [bins{closest_bin,1} , cloud.x(layer,datapoint)];
         bins{closest_bin,2} = [bins{closest_bin,2} , cloud.y(layer,datapoint)];
     end
-%     textprogressbar('done');
-    
+    if plot_progress
+        textprogressbar('done');
+    end
 end
 
 averages = cellfun(@median, bins,'UniformOutput',false);
@@ -108,6 +114,7 @@ for fn_idx = 1:length(fns)
             if predecessor_radius < 10
                 centers.(fn).x(center_idx) = [];
                 centers.(fn).y(center_idx) = [];
+                centers.(fn).radius(center_idx) = [];
                 center_idx = center_idx - 1;
             elseif center_idx == 1
                 border_idx = find(centers.(fn).radius~=100,1,'last');
@@ -115,6 +122,7 @@ for fn_idx = 1:length(fns)
                 if predecessor_radius < 10
                     centers.(fn).x(center_idx) = [];
                     centers.(fn).y(center_idx) = [];
+                    centers.(fn).radius(center_idx) = [];
                     center_idx = center_idx - 1;
                 end
             end

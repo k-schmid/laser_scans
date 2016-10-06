@@ -1,4 +1,4 @@
-clear
+clear all
 close all
 clc
 layer = 8;
@@ -12,7 +12,7 @@ reload = false;
 plot_path = '../Evaluation/';
 addpath('..');
 data_path = get_dataPath();
-parfor intersections=1:22
+for intersections=12
     clouds_path = [data_path int2str(intersections) '/'];
     fprintf('Intersection %d\n',intersections)
     %% Defaults
