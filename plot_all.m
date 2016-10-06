@@ -11,7 +11,7 @@ num_bins = 180;
 reload = false;
 plot_path = '../Evaluation/';
 
-parfor intersections=1:22
+for intersections=12
         clouds_path = ['../data/' int2str(intersections) '/'];
     fprintf('Intersection %d\n',intersections)
     %% Defaults
@@ -23,3 +23,7 @@ parfor intersections=1:22
     export_fig([path,filename],'-pdf','-m3','-transparent')
 
 end
+
+
+addpath('../iso_analysis/')
+save_all_iso_stats();

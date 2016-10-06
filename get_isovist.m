@@ -14,20 +14,33 @@ for layer = layers
         
         if isnan(cloud.radius(layer,datapoint))
             
+            
             if ~nan_found
+                predecessor_idx = get_neighbour(datapoint,-1,size(cloud.azimuth,2));
+                if cloud.radius(layer,predecessor_idx) < 10
+                    cloud.radius(layer,datapoint) = 0;
+                    continue;
+                elseif isnan(cloud.radius(layer,predecessor_idx))
+                    rev_cloud=fliplr(cloud.radius(layer,1:predecessor_idx));
+                    idx_first_nan = find(isnan(rev_cloud),1);
+                    if cloud.radius(layer,idx_first_nan) < 10
+                        cloud.radius(layer,datapoint) = 0;
+                        continue;
+                    end
+                end
                 nan_found = true;
                 start_angle = angle_datapoint;
                 start_idx = datapoint;
-            else                
-%                 fprintf('%f\n',abs(start_angle - angle_datapoint))
-                if abs(start_angle - angle_datapoint) > outlier_range                   
+            else
+                %                 fprintf('%f\n',abs(start_angle - angle_datapoint))
+                if abs(start_angle - angle_datapoint) > outlier_range
                     n = find(not(isnan([cloud.radius(layer,datapoint:end) , cloud.radius(layer,1:datapoint-1)])),1);
                     if datapoint+n-2 > size(cloud.radius(layer,:),2)
                         cloud.radius(layer,start_idx:end) = limit;
                         [x,y] = pol2cart(cloud.azimuth(layer,start_idx:end),cloud.radius(layer,start_idx:end));
                         cloud.x(layer,start_idx:end)=x;
                         cloud.y(layer,start_idx:end)=y;
-
+                        
                         n = datapoint+n-2 - size(cloud.radius(layer,:),2);
                         cloud.radius(layer,1:n) = limit;
                         [x,y] = pol2cart(cloud.azimuth(layer,1:n),cloud.radius(layer,1:n));
@@ -43,7 +56,7 @@ for layer = layers
                     datapoint = start_idx;
                 end
             end
-                continue;
+            continue;
         end
         nan_found = false;
         
