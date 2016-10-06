@@ -5,14 +5,15 @@ layer = 8;
 rangeLimit = 100;
 precision = 0;
 viewing_angle = [deg2rad(0),deg2rad(360)];% [deg2rad(0),deg2rad(90);deg2rad(270),deg2rad(360)];
-outlier_range = deg2rad(7);
+outlier_range = deg2rad(8);
 center_statistics = 'median';
 num_bins = 180;
 reload = false;
 plot_path = '../Evaluation/';
-
-for intersections=12
-        clouds_path = ['../data/' int2str(intersections) '/'];
+addpath('..');
+data_path = get_dataPath();
+parfor intersections=1:22
+    clouds_path = [data_path int2str(intersections) '/'];
     fprintf('Intersection %d\n',intersections)
     %% Defaults
     path = [plot_path,'current_isovists/'];
@@ -21,7 +22,7 @@ for intersections=12
     set(gcf, 'Position', get(0, 'Screensize'));
     mkdir(path)
     export_fig([path,filename],'-pdf','-m3','-transparent')
-
+    
 end
 
 

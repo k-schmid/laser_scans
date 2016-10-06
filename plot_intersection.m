@@ -35,6 +35,7 @@ numFolder = length(subFolders);
 subplot_dim = [ceil(sqrt(numFolder)),round(sqrt(numFolder))];
 figure()
 for i = 1:numFolder
+    fprintf('Scene %d/%d\n',i,numFolder);
     subFolder = subFolders(i);
     subFolderPath = [folder_path subFolder.name];
     if exist(sprintf('%s/cloud_preprocessed.mat',subFolderPath),'file') && reload
