@@ -1,7 +1,7 @@
 clear all
 close all
 clc
-layer = 8;
+layer = 7:8;
 rangeLimit = 100;
 precision = 0;
 viewing_angle = [deg2rad(0),deg2rad(360)];% [deg2rad(0),deg2rad(90);deg2rad(270),deg2rad(360)];
@@ -11,8 +11,9 @@ num_bins = 180;
 reload = false;
 plot_path = '../Evaluation/';
 addpath('..');
+addpath('../../tools/')
 data_path = get_dataPath();
-parfor intersections=1:22
+for intersections=5
     clouds_path = [data_path int2str(intersections) '/'];
     fprintf('Intersection %d\n',intersections)
     %% Defaults
