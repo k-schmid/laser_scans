@@ -1,7 +1,7 @@
 clear all
 close all
 clc
-layer = 7:8;
+layer = 8;
 rangeLimit = 100;
 precision = 0;
 viewing_angle = [deg2rad(0),deg2rad(360)];% [deg2rad(0),deg2rad(90);deg2rad(270),deg2rad(360)];
