@@ -31,8 +31,7 @@ subFolders = subFolders(numericValue);
 subFolders = subFolders(idx);
 
 numFolder = length(subFolders);
-
-subplot_dim = [ceil(sqrt(numFolder)),round(sqrt(numFolder))];
+subplot_dim = [round(sqrt(numFolder)),ceil(sqrt(numFolder))];
 figure()
 for i = 1:numFolder
     fprintf('Scene %d/%d\n',i,numFolder);
@@ -49,7 +48,7 @@ for i = 1:numFolder
 %         cloud = roundData(cloud,precision);
 %         cloud = reduceAngle(cloud, viewing_angle,layer_of_interest);
         %         cloud = reject_outlier(cloud,outlier_range,layer_of_interest);
-        %         cloud = setLimit(cloud, rangeLimit);
+        cloud = setLimit(cloud, rangeLimit);
         centers = get_isovist(num_bins,cloud,1,layer_of_interest,outlier_range, rangeLimit);
         %         centers = gaussFilterCenters(centers,5);
         if save_mat
@@ -62,10 +61,11 @@ for i = 1:numFolder
     hold on
     plot([centers.(center_statistics).x(end),centers.(center_statistics).x(1)],[centers.(center_statistics).y(end),centers.(center_statistics).y(1)],'Marker','.','MarkerSize',1,'Color','black')
     plot(0,0,'Marker','x','MarkerSize',5,'Color','r')
-    xlim([-100,100])
-    ylim([-100,100])
-    axis off
+%     axis off
     axis equal
+    xlim([-105,105])
+    ylim([-105,105])
+    set(gca, 'XTickLabel','','YTickLabel','');
     hold off
     drawnow()
 end
