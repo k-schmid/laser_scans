@@ -5,6 +5,8 @@ angle_diff = 2*pi / num_bins;
 layers = layer_of_interest-1:layer_of_interest+1;
 
 bins = cell(num_bins,2);
+bin_angles =  2*pi/num_bins:2*pi/num_bins:2*pi;
+[circle_points_x,circle_points_y] = sph2cart(bin_angles,0,100);
 plot_progress = false;
 if exist('textprogressbar','file')
     plot_progress = true;
@@ -78,24 +80,36 @@ for layer = layer_of_interest%layers
 end
 
 averages = cellfun(@(x) double(median(x)), bins,'UniformOutput',false);
-nans = cell2mat(cellfun(@(V) any(isnan(V(:))), averages,'UniformOutput',false));
-averages(nans(:,1),:) = {NaN};
+nans = (cell2mat(cellfun(@(V) any(isnan(V(:))), averages,'UniformOutput',false)));
+nans = find(nans(:,1));
+for nan_idx = nans'
+    averages{nan_idx,1} = circle_points_x(nan_idx);
+    averages{nan_idx,2} = circle_points_y(nan_idx);
+end
 averages = cell2mat(averages);
 centers.median.x = averages(:,1);
 centers.median.y = averages(:,2);
 centers.median.radius = round(sqrt(averages(:,1).^2 +averages(:,2).^2));
 
-averages = cellfun(@mode, bins,'UniformOutput',false);
+averages = cellfun(@(x) double(mode(x)), bins,'UniformOutput',false);
 nans = cell2mat(cellfun(@(V) any(isnan(V(:))), averages,'UniformOutput',false));
-averages(nans(:,1),:) = [];
+nans = find(nans(:,1));
+for nan_idx = nans'
+    averages{nan_idx,1} = circle_points_x(nan_idx);
+    averages{nan_idx,2} = circle_points_y(nan_idx);
+end
 averages = cell2mat(averages);
 centers.mode.x = averages(:,1);
 centers.mode.y = averages(:,2);
 centers.mode.radius = round(sqrt(averages(:,1).^2 +averages(:,2).^2));
 
-averages = cellfun(@mean, bins,'UniformOutput',false);
+averages = cellfun(@(x) double(mean(x)), bins,'UniformOutput',false);
 nans = cell2mat(cellfun(@(V) any(isnan(V(:))), averages,'UniformOutput',false));
-averages(nans(:,1),:) = [];
+nans = find(nans(:,1));
+for nan_idx = nans'
+    averages{nan_idx,1} = circle_points_x(nan_idx);
+    averages{nan_idx,2} = circle_points_y(nan_idx);
+end
 averages = cell2mat(averages);
 centers.mean.x = averages(:,1);
 centers.mean.y = averages(:,2);

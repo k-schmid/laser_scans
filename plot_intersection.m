@@ -56,7 +56,7 @@ for i = 1:numFolder
         end
     end
     centers = rejectArtefacts(centers,rangeLimit,false);
-%     subplotxl(subplot_dim(1),subplot_dim(2),i);
+    subplotxl(subplot_dim(1),subplot_dim(2),i);
     %         scatter(clouds{i}.x(7,:),clouds{i}.y(7,:),2,'r','filled')
    plot_isovist( centers.(center_statistics));
 end

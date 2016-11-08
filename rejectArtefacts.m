@@ -5,6 +5,7 @@ function [ centers ] = rejectArtefacts( centers,limit, verbose )
 fns = fieldnames(centers);
 for fn_idx = 1:length(fns)
     fn = fns{fn_idx};
+    centers.(fn).radius(isnan(centers.(fn).radius)) = 100;
     center_idx = 0;
     while center_idx < length(centers.(fn).x)
         center_idx = center_idx + 1;
