@@ -11,7 +11,6 @@ function [ cloud ] = setLimit( cloud, limit)
 %       cloud     -   Adapted cloud data
 %
 
-cloud.radius(isnan(cloud.radius)) = Inf;
 idxs = cloud.radius > limit;
 cloud.radius(idxs) = limit;
 
