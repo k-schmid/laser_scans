@@ -55,19 +55,10 @@ for i = 1:numFolder
             save_mat_file( centers,cloud,subFolderPath,layer_of_interest );
         end
     end
-    subplotxl(subplot_dim(1),subplot_dim(2),i);
+    centers = rejectArtefacts(centers,rangeLimit,false);
+%     subplotxl(subplot_dim(1),subplot_dim(2),i);
     %         scatter(clouds{i}.x(7,:),clouds{i}.y(7,:),2,'r','filled')
-    plot(centers.(center_statistics).x,centers.(center_statistics).y,'Marker','.','Color','black')
-    hold on
-    plot([centers.(center_statistics).x(end),centers.(center_statistics).x(1)],[centers.(center_statistics).y(end),centers.(center_statistics).y(1)],'Marker','.','MarkerSize',1,'Color','black')
-    plot(0,0,'Marker','x','MarkerSize',5,'Color','r')
-%     axis off
-    axis equal
-    xlim([-105,105])
-    ylim([-105,105])
-    set(gca, 'XTickLabel','','YTickLabel','');
-    hold off
-    drawnow()
+   plot_isovist( centers.(center_statistics));
 end
 
 end

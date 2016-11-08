@@ -24,6 +24,7 @@ for layer = layer_of_interest%layers
         angle_datapoint = cloud.azimuth(layer,datapoint);
         
         if isnan(cloud.radius(layer,datapoint))
+            continue
             if ~nan_found
                 nan_found = true;
                 start_angle = angle_datapoint;
@@ -76,9 +77,9 @@ for layer = layer_of_interest%layers
     end
 end
 
-averages = cellfun(@median, bins,'UniformOutput',false);
+averages = cellfun(@(x) double(median(x)), bins,'UniformOutput',false);
 nans = cell2mat(cellfun(@(V) any(isnan(V(:))), averages,'UniformOutput',false));
-averages(nans(:,1),:) = [];
+averages(nans(:,1),:) = {NaN};
 averages = cell2mat(averages);
 centers.median.x = averages(:,1);
 centers.median.y = averages(:,2);
@@ -101,32 +102,4 @@ centers.mean.y = averages(:,2);
 centers.mean.radius = round(sqrt(averages(:,1).^2 +averages(:,2).^2));
 
 
-fns = fieldnames(centers);
-for fn_idx = 1:length(fns)
-    fn = fns{fn_idx};
-    center_idx = 0;
-    while center_idx < length(centers.(fn).x)
-        center_idx = center_idx + 1;
-        radius = centers.(fn).radius(center_idx);
-        if radius == limit
-            predecessor_idx = get_neighbour(center_idx,-1,length(centers.(fn).x));
-            predecessor_radius = centers.(fn).radius(predecessor_idx);
-            if predecessor_radius < 10
-                centers.(fn).x(center_idx) = [];
-                centers.(fn).y(center_idx) = [];
-                centers.(fn).radius(center_idx) = [];
-                center_idx = center_idx - 1;
-            elseif center_idx == 1
-                border_idx = find(centers.(fn).radius~=100,1,'last');
-                predecessor_radius = centers.(fn).radius(border_idx);
-                if predecessor_radius < 10
-                    centers.(fn).x(center_idx) = [];
-                    centers.(fn).y(center_idx) = [];
-                    centers.(fn).radius(center_idx) = [];
-                    center_idx = center_idx - 1;
-                end
-            end
-        end
-    end
-end
 
