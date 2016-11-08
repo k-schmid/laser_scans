@@ -8,7 +8,7 @@ viewing_angle = [deg2rad(0),deg2rad(360)];% [deg2rad(0),deg2rad(90);deg2rad(270)
 outlier_range = deg2rad(8);
 center_statistics = 'median';
 num_bins = 180;
-reload = true;
+reload = false;
 plot_path = '../Evaluation/';
 addpath('..');
 addpath('../../tools/')
