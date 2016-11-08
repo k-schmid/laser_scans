@@ -26,7 +26,6 @@ for layer = layer_of_interest%layers
         angle_datapoint = cloud.azimuth(layer,datapoint);
         
         if isnan(cloud.radius(layer,datapoint))
-            continue
             if ~nan_found
                 nan_found = true;
                 start_angle = angle_datapoint;

@@ -13,7 +13,7 @@ plot_path = '../Evaluation/';
 addpath('..');
 addpath('../../tools/')
 data_path = get_dataPath();
-parfor intersections=1:12%:22
+for intersections=2%:22
     clouds_path = [data_path int2str(intersections) '/'];
     fprintf('Intersection %d\n',intersections)
     %% Defaults

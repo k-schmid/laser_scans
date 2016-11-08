@@ -33,7 +33,7 @@ subFolders = subFolders(idx);
 numFolder = length(subFolders);
 subplot_dim = [round(sqrt(numFolder)),ceil(sqrt(numFolder))];
 figure()
-for i = 1:numFolder
+for i = 2%1:numFolder
     fprintf('Scene %d/%d\n',i,numFolder);
     subFolder = subFolders(i);
     subFolderPath = [folder_path subFolder.name];
@@ -55,7 +55,7 @@ for i = 1:numFolder
             save_mat_file( centers,cloud,subFolderPath,layer_of_interest );
         end
     end
-    centers = rejectArtefacts(centers,rangeLimit,false);
+    centers = rejectArtefacts(centers,rangeLimit,true);
     subplotxl(subplot_dim(1),subplot_dim(2),i);
     %         scatter(clouds{i}.x(7,:),clouds{i}.y(7,:),2,'r','filled')
    plot_isovist( centers.(center_statistics));

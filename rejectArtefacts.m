@@ -11,22 +11,23 @@ for fn_idx = 1:length(fns)
         center_idx = center_idx + 1;
         radius = centers.(fn).radius(center_idx);
         if radius > limit - 10
+            num_neigbours = 3;
+            x_neighbours = zeros(num_neigbours*2,1);
+            y_neighbours = zeros(num_neigbours*2,1);
+            pred_idx = center_idx;
+            suc_idx = center_idx;
+            for num_neigbour = 1:num_neigbours
+                [pred_idx,~] = getNextBelowLimit(centers.(fn),pred_idx,length(centers.(fn).x),limit,-1);
+                [suc_idx,~] = getNextBelowLimit(centers.(fn),suc_idx,length(centers.(fn).x),limit,1);
+          
+                x_neighbours(num_neigbour*2-1) = centers.(fn).x(pred_idx);
+                x_neighbours(num_neigbour*2) = centers.(fn).x(suc_idx);
+                
+                y_neighbours(num_neigbour*2-1) = centers.(fn).y(pred_idx);
+                y_neighbours(num_neigbour*2) = centers.(fn).y(suc_idx);
+            end
             
-            [predecessor_idx,predecessor_radius] = getNextBelowLimit(centers.(fn),center_idx,length(centers.(fn).x),limit,-1);
-            [successor_idx,successor_radius] = getNextBelowLimit(centers.(fn),center_idx,length(centers.(fn).x),limit,1);
-            sucsuccessor_idx = get_neighbour(successor_idx,1,length(centers.(fn).x));
-            prepredecessor_idx = get_neighbour(predecessor_idx,-1,length(centers.(fn).x));
-            
-            x_neighbours=[centers.(fn).x(prepredecessor_idx),...
-                centers.(fn).x(predecessor_idx),...
-                centers.(fn).x(successor_idx),...
-                centers.(fn).x(sucsuccessor_idx)];
-            y_neighbours=[centers.(fn).y(prepredecessor_idx),...
-                centers.(fn).y(predecessor_idx),...
-                centers.(fn).y(successor_idx),...
-                centers.(fn).y(sucsuccessor_idx)];
-            
-            [r,m,b] = regression(x_neighbours,y_neighbours);
+            [r,m,b] = regression(x_neighbours',y_neighbours');
             x = centers.(fn).x(center_idx);
             y = centers.(fn).y(center_idx);
             residuals = mean(abs((m*x_neighbours+b)-y_neighbours));
