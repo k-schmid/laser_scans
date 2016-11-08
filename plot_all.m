@@ -1,11 +1,11 @@
 clear all
 close all
 clc
-layer = 8;
+layer = 7:8;
 rangeLimit = 100;
 precision = 0;
 viewing_angle = [deg2rad(0),deg2rad(360)];% [deg2rad(0),deg2rad(90);deg2rad(270),deg2rad(360)];
-outlier_range = deg2rad(15);
+outlier_range = deg2rad(5);
 center_statistics = 'median';
 num_bins = 180;
 reload = false;
