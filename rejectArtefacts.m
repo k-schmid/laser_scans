@@ -1,7 +1,11 @@
-function [ centers ] = rejectArtefacts( centers,limit, verbose )
+function [ centers ] = rejectArtefacts( centers,limit, verbose,center_statistics )
 %REJECTARTEFACTS Summary of this function goes here
 %   Detailed explanation goes here
 
+
+fns = fieldnames(centers);
+
+figure(1000)
 fns = fieldnames(centers);
 for fn_idx = 1:length(fns)
     fn = fns{fn_idx};
@@ -31,7 +35,7 @@ for fn_idx = 1:length(fns)
             x = centers.(fn).x(center_idx);
             y = centers.(fn).y(center_idx);
             residuals = mean(abs((m*x_neighbours+b)-y_neighbours));
-            if verbose
+            if verbose && isequal(center_statistics,fn)
                 plot_isovist(centers.(fn));
                 hold on
                 plot(x,y,'ro')

@@ -82,8 +82,8 @@ averages = cellfun(@(x) double(median(x)), bins,'UniformOutput',false);
 nans = (cell2mat(cellfun(@(V) any(isnan(V(:))), averages,'UniformOutput',false)));
 nans = find(nans(:,1));
 for nan_idx = nans'
-    averages{nan_idx,1} = circle_points_x(nan_idx);
-    averages{nan_idx,2} = circle_points_y(nan_idx);
+    averages{nan_idx,1} = [];% circle_points_x(nan_idx);
+    averages{nan_idx,2} = [];% circle_points_y(nan_idx);
 end
 averages = cell2mat(averages);
 centers.median.x = averages(:,1);
@@ -94,8 +94,8 @@ averages = cellfun(@(x) double(mode(x)), bins,'UniformOutput',false);
 nans = cell2mat(cellfun(@(V) any(isnan(V(:))), averages,'UniformOutput',false));
 nans = find(nans(:,1));
 for nan_idx = nans'
-    averages{nan_idx,1} = circle_points_x(nan_idx);
-    averages{nan_idx,2} = circle_points_y(nan_idx);
+    averages{nan_idx,1} = [];% circle_points_x(nan_idx);
+    averages{nan_idx,2} = [];% circle_points_y(nan_idx);
 end
 averages = cell2mat(averages);
 centers.mode.x = averages(:,1);
@@ -106,8 +106,8 @@ averages = cellfun(@(x) double(mean(x)), bins,'UniformOutput',false);
 nans = cell2mat(cellfun(@(V) any(isnan(V(:))), averages,'UniformOutput',false));
 nans = find(nans(:,1));
 for nan_idx = nans'
-    averages{nan_idx,1} = circle_points_x(nan_idx);
-    averages{nan_idx,2} = circle_points_y(nan_idx);
+    averages{nan_idx,1} = [];% circle_points_x(nan_idx);
+    averages{nan_idx,2} = [];% circle_points_y(nan_idx);
 end
 averages = cell2mat(averages);
 centers.mean.x = averages(:,1);

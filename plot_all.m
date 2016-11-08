@@ -9,6 +9,7 @@ outlier_range = deg2rad(15);
 center_statistics = 'median';
 num_bins = 180;
 reload = false;
+verbose = false;
 plot_path = '../Evaluation/';
 addpath('..');
 addpath('../../tools/')
@@ -18,7 +19,7 @@ parfor intersections=1:22
     fprintf('Intersection %d\n',intersections)
     %% Defaults
     path = [plot_path,'current_isovists/'];
-    plot_intersection(clouds_path,layer,outlier_range, rangeLimit, viewing_angle,precision,center_statistics,num_bins,reload,true);
+    plot_intersection(clouds_path,layer,outlier_range, rangeLimit, viewing_angle,precision,center_statistics,num_bins,reload,true,verbose);
     filename =sprintf('Isovists %d_%d bins_%s.png',intersections,num_bins,center_statistics);
     set(gcf, 'Position', get(0, 'Screensize'));
     mkdir(path)
