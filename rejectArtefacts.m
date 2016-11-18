@@ -14,7 +14,7 @@ for fn_idx = 1:length(fns)
     while center_idx < length(centers.(fn).x)
         center_idx = center_idx + 1;
         radius = centers.(fn).radius(center_idx);
-        if radius > limit - 10
+        if radius > limit - 3
             num_neigbours = 5;
             x_neighbours = zeros(num_neigbours*2,1);
             y_neighbours = zeros(num_neigbours*2,1);
@@ -38,7 +38,11 @@ for fn_idx = 1:length(fns)
             if verbose && isequal(center_statistics,fn)
                 plot_isovist(centers.(fn));
                 hold on
-                plot(x,y,'ro')
+                if residuals < 0.5
+                    plot(x,y,'ro')
+                else
+                    plot(x,y,'go')
+                end
                 plot(x_neighbours,y_neighbours,'rx');
                 plot([-100,100],[-100,100]*m+b,'r')
                 hold off
