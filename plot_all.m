@@ -1,6 +1,7 @@
 clear all
 close all
 clc
+warings off
 layer = 7:8;
 rangeLimit = 100;
 precision = 0;
@@ -24,7 +25,7 @@ parfor intersections=1:22
     set(gcf, 'Position', get(0, 'Screensize'));
     mkdir(path)
     export_fig([path,filename],'-pdf','-m3','-transparent')
-    
+    fprintf('Intersection %d done\n',intersections)
 end
 
 
