@@ -7,7 +7,7 @@ while not(found)
    successor_idx = get_neighbour(idx,direction,size); 
    idx = successor_idx;
    successor_radius = centers.radius(successor_idx);
-   if successor_radius < (limit - 10)
+   if successor_radius < (limit)
        return
    end
 end

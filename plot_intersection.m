@@ -34,7 +34,7 @@ numFolder = length(subFolders);
 subplot_dim = [round(sqrt(numFolder)),ceil(sqrt(numFolder))];
 fig_handle = figure();
 for i = 1:numFolder
-    fprintf('Scene %d/%d\n',i,numFolder);
+%     fprintf('Scene %d/%d\n',i,numFolder);
     subFolder = subFolders(i);
     subFolderPath = [folder_path subFolder.name];
     if exist(sprintf('%s/cloud_preprocessed.mat',subFolderPath),'file') && reload
@@ -55,8 +55,11 @@ for i = 1:numFolder
             save_mat_file( centers,cloud,subFolderPath,layer_of_interest );
         end
     end
-    
+    before = length(centers.median.x);
     centers = rejectArtefacts(centers,rangeLimit,verbose,center_statistics);
+    if before~=180 || length(centers.median.x)~=180
+        plot('Before %d, after %d in %s\n',before,length(centers.median.x),subFolderPath);
+    end
     figure(fig_handle)
     subplotxl(subplot_dim(1),subplot_dim(2),i);
     %         scatter(clouds{i}.x(7,:),clouds{i}.y(7,:),2,'r','filled')

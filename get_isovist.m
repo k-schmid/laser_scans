@@ -82,37 +82,67 @@ averages = cellfun(@(x) double(median(x)), bins,'UniformOutput',false);
 nans = (cell2mat(cellfun(@(V) any(isnan(V(:))), averages,'UniformOutput',false)));
 nans = find(nans(:,1));
 for nan_idx = nans'
-    averages{nan_idx,1} = [];% circle_points_x(nan_idx);
-    averages{nan_idx,2} = [];% circle_points_y(nan_idx);
+    averages{nan_idx,1} = 1000;% circle_points_x(nan_idx);
+    averages{nan_idx,2} = 1000;% circle_points_y(nan_idx);
 end
 averages = cell2mat(averages);
 centers.median.x = averages(:,1);
 centers.median.y = averages(:,2);
 centers.median.radius = round(sqrt(averages(:,1).^2 +averages(:,2).^2));
+for nan_idx = nan_idx
+    [pred_idx,pred_radius] = getNextBelowLimit(centers.median,nan_idx,length(centers.median.x),1000,-1);
+    [suc_idx,suc_radius] = getNextBelowLimit(centers.median,nan_idx,length(centers.median.x),1000,1);
+    mean_radius = mean([pred_radius,suc_radius]);
+    theta = bin_angles(nan_idx);
+    [x,y] = pol2cart(theta,mean_radius);
+    centers.median.x(nan_idx) = x;
+    centers.median.y(nan_idx) = y;
+end
+
 
 averages = cellfun(@(x) double(mode(x)), bins,'UniformOutput',false);
 nans = cell2mat(cellfun(@(V) any(isnan(V(:))), averages,'UniformOutput',false));
 nans = find(nans(:,1));
 for nan_idx = nans'
-    averages{nan_idx,1} = [];% circle_points_x(nan_idx);
-    averages{nan_idx,2} = [];% circle_points_y(nan_idx);
+    averages{nan_idx,1} = 1000;% circle_points_x(nan_idx);
+    averages{nan_idx,2} = 1000;% circle_points_y(nan_idx);
 end
 averages = cell2mat(averages);
 centers.mode.x = averages(:,1);
 centers.mode.y = averages(:,2);
 centers.mode.radius = round(sqrt(averages(:,1).^2 +averages(:,2).^2));
+for nan_idx = nan_idx
+    [pred_idx,pred_radius] = getNextBelowLimit(centers.mode,nan_idx,length(centers.mode.x),1000,-1);
+    [suc_idx,suc_radius] = getNextBelowLimit(centers.mode,nan_idx,length(centers.mode.x),1000,1);
+    mean_radius = mean([pred_radius,suc_radius]);
+    theta = bin_angles(nan_idx);
+    [x,y] = pol2cart(theta,mean_radius);
+    centers.median.x(nan_idx) = x;
+    centers.median.y(nan_idx) = y;
+end
+
 
 averages = cellfun(@(x) double(mean(x)), bins,'UniformOutput',false);
 nans = cell2mat(cellfun(@(V) any(isnan(V(:))), averages,'UniformOutput',false));
 nans = find(nans(:,1));
 for nan_idx = nans'
-    averages{nan_idx,1} = [];% circle_points_x(nan_idx);
-    averages{nan_idx,2} = [];% circle_points_y(nan_idx);
+    averages{nan_idx,1} = 1000;% circle_points_x(nan_idx);
+    averages{nan_idx,2} = 1000;% circle_points_y(nan_idx);
 end
 averages = cell2mat(averages);
 centers.mean.x = averages(:,1);
 centers.mean.y = averages(:,2);
 centers.mean.radius = round(sqrt(averages(:,1).^2 +averages(:,2).^2));
+for nan_idx = nans'
+    [pred_idx,pred_radius] = getNextBelowLimit(centers.mean,nan_idx,length(centers.mode.x),1000,-1);
+    [suc_idx,suc_radius] = getNextBelowLimit(centers.mean,nan_idx,length(centers.mode.x),1000,1);
+    mean_radius = mean([pred_radius,suc_radius]);
+    theta = bin_angles(nan_idx);
+    [x,y] = pol2cart(theta,mean_radius);
+    centers.median.x(nan_idx) = x;
+    centers.median.y(nan_idx) = y;
+end
 
+end
 
 

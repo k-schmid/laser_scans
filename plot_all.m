@@ -1,7 +1,7 @@
 clear all
 close all
 clc
-warings off
+% warning off
 layer = 7:8;
 rangeLimit = 100;
 precision = 0;
@@ -24,7 +24,9 @@ parfor intersections=1:22
     filename =sprintf('Isovists %d_%d bins_%s.png',intersections,num_bins,center_statistics);
     set(gcf, 'Position', get(0, 'Screensize'));
     mkdir(path)
-    export_fig([path,filename],'-pdf','-m3','-transparent')
+    if ~verbose
+        export_fig([path,filename],'-pdf','-m3','-transparent')
+    end
     fprintf('Intersection %d done\n',intersections)
 end
 
